@@ -1,0 +1,36 @@
+<project name="Proyecto" default="dist" basedir=".">
+    <!-- Define las propiedades del proyecto -->
+    <property name="src.dir" value="origen"/>
+    <property name="build.dir" value="compilado"/>
+    <property name="dist.dir" value="distribucion"/>
+    <property name="jar.dir" value="${dist.dir}/lib"/>
+    <property name="main-class" value="nombre_apellidos"/>
+    <property name="jar.file" value="${jar.dir}/daw23-24_${main-class}_yyyyMMdd.jar"/>
+
+    <!-- Creamos el directorio "compilado" -->
+    <target name="init">
+        <tstamp/>
+        <mkdir dir="${build.dir}"/>
+    </target>
+
+    <!-- Compilamos todos los archivos java del directorio "origen" y almacenarlos en el directorio "compilado" -->
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${build.dir}"/>
+    </target>
+
+    <!-- Creamos un directorio en "distribucion/lib" y un fichero "jar" que contiene todas las clases compiladas del directorio "compilado"
+    nombramos el archivo jar como "daw23-24_nombre_apellidos_yyyyMMdd.jar" -->
+    <target name="dist" depends="compile">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.file}" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <!-- Borramos el directorio "compilado" y todo su contenido -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+</project>
